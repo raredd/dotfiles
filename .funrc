@@ -1,0 +1,198 @@
+ q2a() {
+   # https://stackoverflow.com/a/10359425/2994949
+   # need gnu sed
+   if [ -z "$1" ]; then
+     echo "usage: q2a in.fastq > out.fasta"
+   else gsed -n '1~4s/^@/>/p;2~4p' "$1"
+   fi
+ }
+
+chmodr() {
+  # walk along files and change permissions by type
+  # usage: chmodr f|d mode directory
+  # examples: chmodr f 644 .
+  #           chmodr d 755 .
+  if [ -z "$1" ]; then
+    echo "usage: chmodr [f|d] mode dir"
+  else find "$3" -type "$1" -exec chmod "$2" {} \;
+  fi
+}
+
+cs() {
+  # ls or cd & ls if directory given
+  # usage: cs [directory]
+  [[ -n "${1}" ]] && cd $1
+  ls
+}
+
+dots() {
+  # toggle hidden files
+  # usage: dots yes|no|true|false
+  defaults write com.apple.finder AppleShowAllFiles "$1"
+  killall Finder
+}
+
+
+extract() {
+ if [ -z "$1" ]; then
+    # display usage if no parameters given
+    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+ else
+    for n in "$@"
+    do
+      if [ -f "$n" ] ; then
+          case "${n%,}" in
+            *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
+                         tar xvf "$n"       ;;
+            *.lzma)      unlzma ./"$n"      ;;
+            *.bz2)       bunzip2 ./"$n"     ;;
+            *.cbr|*.rar)       unrar x -ad ./"$n" ;;
+            *.gz)        gunzip ./"$n"      ;;
+            *.cbz|*.epub|*.zip)       unzip ./"$n"       ;;
+            *.z)         uncompress ./"$n"  ;;
+            *.7z|*.apk|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
+                         7z x ./"$n"        ;;
+            *.xz)        unxz ./"$n"        ;;
+            *.exe)       cabextract ./"$n"  ;;
+            *.cpio)      cpio -id < ./"$n"  ;;
+            *.cba|*.ace)      unace x ./"$n"      ;;
+            *.zpaq)      zpaq x ./"$n"      ;;
+            *.arc)         arc e ./"$n"       ;;
+            *.cso)       ciso 0 ./"$n" ./"$n.iso" && \
+                              extract $n.iso && \rm -f $n ;;
+            *)
+                         echo "extract: '$n' - unknown archive method"
+                         return 1
+                         ;;
+          esac
+      else
+          echo "'$n' - file does not exist"
+          return 1
+      fi
+    done
+fi
+}
+
+fs() {
+  # file size of current directory or file
+  # usage: fs filename
+  if du -b /dev/null > /dev/null 2>&1; then
+    local arg=-sbh;
+  else
+    local arg=-sh;
+  fi
+  if [[ -n "$@" ]]; then
+    du $arg -- "$@";
+  else
+    du $arg .[^.]* *;
+  fi;
+}
+
+icons() {
+  # toggle desktop icons
+  # usage: icons yes|no|true|false
+  defaults write com.apple.finder CreateDesktop -bool "$1"
+  killall Finder
+}
+
+mkd() {
+  # create and cd to new directory
+  # usage: mkd directory
+  mkdir -p "$1" && cd "$1"
+}
+
+mvcd() {
+  # move files and cd to directory
+  # usage: mvcd file1 file2 ~/desktop
+  num_of_files=$(($# - 1))
+  for i in $(eval echo {1..$num_of_files})
+  do
+    eval mv \${$i} \${$#}
+  done
+  eval cd \${$#}
+}
+
+# mgrep() {
+#   # grep multiple keywords
+#   # eg: ls | mgrep ^d x\\s
+#   local e=$1;
+#   shift && grep --color=auto "$e" | mgrep "$@" || cat
+# }
+
+mgrep() {
+  # grep multiple keywords (now with colors !!)
+  # eg: ls | mgrep ^d x\\s
+  CMD=''
+  while (($#)); do
+    CMD="${CMD} grep \"$1\" | "
+    shift
+  done
+  eval ${CMD%| }
+}
+
+# setjdk() {
+#   # https://blog.jayway.com/2014/01/15/how-to-switch-jdk-version-on-mac-os-x-maverick/
+#   if [ $# -ne 0 ]; then
+#     removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'
+#     if [ -n "${JAVA_HOME+x}" ]; then
+#       removeFromPath $JAVA_HOME
+#     fi
+#     export JAVA_HOME=`/usr/libexec/java_home -v $@`
+#     export PATH=$JAVA_HOME/bin:$PATH
+#   fi
+# }
+#
+# removeFromPath() {
+#   export PATH=$(echo $PATH | sed -E -e "s;:$1;;" -e "s;$1:?;;")
+# }
+
+rmds() {
+  # remove .DS_Store files in a directory and subdirectories
+  # usage: rmds directory
+  find "$1" -name ".DS_Store" -depth -exec rm {} \;
+}
+
+tred() {
+  # tree piped to less if longer than one screen ignoring noisy shit
+  \tree -aC -I '.git|.Rproj.user' --dirsfirst "$@" | less -FRNX
+}
+
+tren() {
+  if [ -z "$1" ]; then
+    \tree -aC -I '.git|.Rproj.user' | less -FRNX
+  else
+    \tree -aC -L "$1" -I '.git|.Rproj.user' | less -FRNX
+  fi
+}
+
+
+# media
+mp42mp3() {
+  ffmpeg -i $1 -b:a 192K -vn $2
+}
+
+m4a2aac() {
+  ffmpeg -i $1 -acodec copy $2
+}
+
+play() {
+  for f in "$@"
+  do
+    eval afplay \""$f"\"
+  done &
+}
+
+playall() {
+  find . -name '*.mp3|*.m4a|*.acc' -exec afplay '{}' \;
+}
+
+replay() {
+  while :; do
+    afplay "$1"
+  done
+}
+
+stop() {
+  killall afplay
+}

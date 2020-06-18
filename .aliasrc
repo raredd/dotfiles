@@ -1,0 +1,54 @@
+# quick links to rc/text files
+alias \
+  aliasrc="vim $HOME/.aliasrc" \
+  bashrc="vim $HOME/.bashrc" \
+  funrc="vim $HOME/.funrc" \
+  gital="vim $HOME/.gitconfig" \
+  sc="vim ~/Documents/lang/shell/cheat" \
+  vc="vim ~/Documents/lang/vim/cheat" \
+  vd="vim ~/Documents/lang/vim/todo" \
+  vimrc="vim $HOME/.vimrc"
+
+# make verbose
+alias \
+  cp="cp -iv" \
+  mv="mv -iv" \
+  rm="rm -iv"
+
+# utils
+alias \
+  ffind="find . -print | grep" \
+  grep="grep -niI --color=auto" \
+  R="R --no-save --quiet" \
+  r="R" \
+  reload="exec $SHELL -l" \
+  vi="vim -p" \
+  vim="vi"
+
+# media
+alias \
+  yt="youtube-dl --add-metadata -i" \
+  yta="yt -x -f bestaudio/best"
+
+# moving
+alias \
+  ..="cd .." \
+  ...="cd ../.." \
+  bin="cd ~/bin" \
+  dl="cd ~/Downloads" \
+  dt="cd ~/Desktop" \
+  dx="cd ~/Documents"
+
+# ls
+# which 'ls' flavor is in use
+if ls --color > /dev/null 2>&1; then
+  colorflag="--color"
+else # OSX
+  colorflag="-G"
+fi
+
+alias ls="ls -lFh $colorflag"
+alias ls.="ls -dh $colorflag .*"
+alias lsa="ls -laFh $colorflag"
+alias lsd="ls -lFh $colorflag | grep --color=never '^d'"
+

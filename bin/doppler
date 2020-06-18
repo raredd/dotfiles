@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+# notify-send "Loading radar for Hazard" "Please wait..."
+mpv --loop-file=inf "https://radar.weather.gov/lite/N0R/JKL_loop.gif"
+
+# notify-send "Loading radar for Boston" "Please wait..."
+# mpv --loop-file=inf "https://radar.weather.gov/lite/N0R/BOX_loop.gif"

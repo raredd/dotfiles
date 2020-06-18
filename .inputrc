@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# ignore case in tab completion
+# eg, cd ~/de[TAB]
+set completion-ignore-case on
+
+# dont match hidden files in tab completion
+set match-hidden-files off
+
+# search command history by typing some letters + up/down
+"\e[A": history-search-backward
+"\e[B": history-search-forward
