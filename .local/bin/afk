@@ -2,6 +2,7 @@
 
 # use blurred image of current desktop as lock screen
 # or another image if afk /path/to/image is used
+# requires github.com/raredd/slock
 
 if [ -z "$1" ]; then
   IMG="$HOME/.local/share/bg-default"

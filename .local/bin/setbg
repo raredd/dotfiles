@@ -1,18 +1,20 @@
 #!/usr/bin/env sh
 
+# from github.com/LukeSmithxyz
+
 # default wallpaper link
-bgloc="$HOME/.local/share/bg-default"
+LOC="$HOME/.local/share/bg-default"
 
 # if given a file, set new wallpaper
-[ -f "$1" ] && ln -sf "$(readlink -f "$1")" "$bgloc"
+[ -f "$1" ] && ln -sf "$(readlink -f "$1")" "$LOC"
 
 # if given a dir, set random wallpaper from images in dir
 [ -d "$1" ] \
   && ln -sf "$(find "$(readlink -f "$1")" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f \
-  | shuf -n 1)" "$bgloc"
+  | shuf -n 1)" "$LOC"
 
 # if pywal is installed, generate a colorscheme
-# wal -i "$(readlink -f "$bgloc")" -o "$HOME/.config/wal/postrun" >/dev/null 2>&1]
+# wal -i "$(readlink -f "$LOC")" -o "$HOME/.config/wal/postrun" >/dev/null 2>&1]
 
 pidof dwm >/dev/null && xdotool key super+F12
-xwallpaper --zoom "$bgloc"
+xwallpaper --zoom "$LOC"

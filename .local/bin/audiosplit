@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+# from github.com/LukeSmithxyz
+
 # split an audio file into parts by timestamp file
 # requires ffmpeg (audio splitting) and `tag` wrapper script
 # timestamp-file should have the following format:
