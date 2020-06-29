@@ -1,4 +1,8 @@
 # options
+
+# use vi key bindings
+set -o vi
+
 # ignore minor misspellings in a cd
 shopt -s cdspell
 
@@ -29,15 +33,4 @@ export HISTFILESIZE=100000
 export HISTSIZE=10000
 
 ## ----------------------------------------------------- ##
-export PATH="$HOME/bin:$PATH"
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-export PATH="$HOME/Library/Haskell/bin:$PATH"
-export PATH="$HOME/documents/lang/julia:$PATH"
-export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:$PATH"
-export PATH="/opt/local/bin/vim:$PATH"
-export PATH="$PATH:~/documents/git/vega-master/bin"
-export PATH="/anaconda2/bin:$PATH"
-export PATH="/usr/local/opt/openssl/bin:$PATH"
-export PATH=/Users/rawr/CRISPResso_dependencies/bin:$PATH
-export BOWTIE_INDEXES="$HOME/genome/indexes"
-
+export PATH="$HOME/.local/bin:$PATH"

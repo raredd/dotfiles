@@ -4,9 +4,9 @@ alias \
   bashrc="vim $HOME/.bashrc" \
   funrc="vim $HOME/.funrc" \
   gital="vim $HOME/.gitconfig" \
-  sc="vim ~/Documents/lang/shell/cheat" \
-  vc="vim ~/Documents/lang/vim/cheat" \
-  vd="vim ~/Documents/lang/vim/todo" \
+  sc="vim $HOME/Documents/lang/shell/cheat" \
+  vc="vim $HOME/Documents/lang/vim/cheat" \
+  vd="vim $HOME/Documents/lang/vim/todo" \
   vimrc="vim $HOME/.vimrc"
 
 # make verbose
@@ -16,14 +16,23 @@ alias \
   rm="rm -iv"
 
 # utils
+if ls --color > /dev/null 2>&1; then
+  colorflag="--color"
+else
+  colorflag="-G"
+fi
+
 alias \
-  ffind="find . -print | grep" \
+  ff="find . -print | grep" \
   grep="grep -niI --color=auto" \
+  ls="ls -lFh $colorflag" \
+  ls.="ls -dh $colorflag .*" \
+  lsa="ls -laFh $colorflag" \
+  lsd="ls -lFh $colorflag | grep --color=never '^d'" \
   R="R --no-save --quiet" \
   r="R" \
   reload="exec $SHELL -l" \
-  vi="vim -p" \
-  vim="vi"
+  vim="vim -p"
 
 # media
 alias \
@@ -34,21 +43,8 @@ alias \
 alias \
   ..="cd .." \
   ...="cd ../.." \
-  bin="cd ~/bin" \
-  dl="cd ~/Downloads" \
-  dt="cd ~/Desktop" \
-  dx="cd ~/Documents"
-
-# ls
-# which 'ls' flavor is in use
-if ls --color > /dev/null 2>&1; then
-  colorflag="--color"
-else # OSX
-  colorflag="-G"
-fi
-
-alias ls="ls -lFh $colorflag"
-alias ls.="ls -dh $colorflag .*"
-alias lsa="ls -laFh $colorflag"
-alias lsd="ls -lFh $colorflag | grep --color=never '^d'"
-
+  bin="cd $HOME/.local/bin" \
+  dl="cd $HOME/Downloads" \
+  dt="cd $HOME/Desktop" \
+  dx="cd $HOME/Documents" \
+  tunes="cd $HOME/Music"

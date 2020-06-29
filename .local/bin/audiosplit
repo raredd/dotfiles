@@ -1,0 +1,62 @@
+#!/usr/bin/env sh
+
+# split an audio file into parts by timestamp file
+# requires ffmpeg (audio splitting) and `tag` wrapper script
+# timestamp-file should have the following format:
+# 0:00 part 1
+# 0:30 part 2
+# ...
+# x:xx end
+
+if [ $# -lt 2 ]; then
+  echo "usage: $(basename "$0") audio-file timestamp-file" 1>&2
+  exit 1
+fi
+
+echo "Enter the album/book title:"; read -r booktitle
+echo "Enter the artist/author:"; read -r author
+echo "Enter the publication year:"; read -r year
+
+inputaudio="$1"
+
+# get a safe file name from the book
+escbook="$(echo "$booktitle" \
+  | iconv -cf UTF-8 -t ASCII//TRANSLIT \
+  | tr -d '[:punct:]' | tr '[:upper:]' '[:lower:]' | tr ' ' '-' \
+  | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")"
+
+! mkdir -p "$escbook" && echo "No write access in this directory" && exit 1
+
+# works as long as the extension is in the tag script
+ext="opus"
+#ext="${1#*.}"
+
+# get the total number of tracks from the number of lines
+total="$(wc -l < "$2")"
+
+while read -r x; do
+  end="$(echo "$x" | cut -d' ' -f1)"
+  [ -n "$start" ] &&
+  echo "From $start to $end; $track $title"
+  file="$escbook/$(printf "%.2d" "$track")-$esctitle.$ext"
+
+  [ -n "$start" ] && echo "Splitting \"$title\"..." \
+    && ffmpeg -nostdin -y -loglevel -8 -i "$inputaudio" -ss "$start" -to "$end" -vn "$file" \
+    && echo "Tagging \"$title\"..." \
+    && tag -a "$author" -A "$booktitle" -t "$title" -n "$track" -N "$total" -d "$year" "$file"
+
+  title="$(echo "$x" | cut -d' ' -f 2-)"
+  esctitle="$(echo "$title" | iconv -cf UTF-8 -t ASCII//TRANSLIT \
+    | tr -d '[:punct:]' | tr '[:upper:]' '[:lower:]' | tr ' ' '-' \
+    | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")"
+  track="$((track+1))"
+  start="$end"
+done < "$2"
+
+# last track must be done outside the loop
+echo "From $start to the end: $title"
+file="$escbook/$(printf "%.2d" "$track")-$esctitle.$ext"
+echo "Splitting \"$title\"..." \
+  && ffmpeg -nostdin -y -loglevel -8 -i "$inputaudio" -ss "$start" -vn "$file" \
+  && echo "Tagging \"$title\"..." \
+  && tag -a "$author" -A "$booktitle" -t "$title" -n "$track" -N "$total" -d "$year" "$file"

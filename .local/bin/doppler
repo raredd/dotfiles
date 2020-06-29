@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+# if arg matches [A-Z]{3}, use as call sign
+# if any args are given, send call options to dmenu
+# otherwise, default to boston radar
+
+if [ "$(echo "$1" | grep -E '[A-Z]{3}')" ]; then
+  URL="https://radar.weather.gov/lite/N0R/$1_loop.gif"
+elif [ -n "$1" ]; then
+  echo "Choose location..."
+  LOC=$(curl -sf "https://radar.weather.gov/lite/N0R/" |
+    grep "_loop" | sed 's/.*href="//g; s/_loop.*//g' | dmenu)
+  URL="https://radar.weather.gov/lite/N0R/${LOC}_loop.gif"
+else
+  URL="https://radar.weather.gov/lite/N0R/BOX_loop.gif"
+fi
+
+# mpv --loop-file=inf "$URL"
+# avoid ffmpeg stream error and silent out/err
+curl -sf "$URL" > /tmp/N0R-doppler
+mpv --loop-file=inf /tmp/N0R-doppler >/dev/null 2>&1

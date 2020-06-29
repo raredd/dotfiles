@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+# memory used / total
+echo "Memory used:"
+# free -h | awk '/^Mem:/ {print $3 "/" $2}'
+free --mebi \
+  | sed -n '2{p;q}' \
+  | awk '{printf ("%2.1fGi/%2.1fGi\n", ($3 / 1024), ($2 / 1024))}'
+echo ""
+
+# cpu temp
+echo "CPU temperature:"
+# sensors | awk '/^T/ {print $2}'
+sensors | grep "^T"
+echo ""
+
+# most memory-intensive processes
+echo "% memory used:"
+ps axch -o cmd:15,%mem --sort=-%mem \
+  | sed '10q' \
+  | grep -E "[0-9]+\.[1-9]+|[1-9]+\.[0-9]+"
+echo ""
+
+# most cpu-intensive processes
+echo "% CPU used:"
+ps axch -o cmd:15,%cpu --sort=-%cpu \
+  | sed '10q' \
+  | grep -E "[0-9]+\.[1-9]+|[1-9]+\.[0-9]+"

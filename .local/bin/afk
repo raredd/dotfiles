@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+# use blurred image of current desktop as lock screen
+# or another image if afk /path/to/image is used
+
+if [ -z "$1" ]; then
+  IMG="$HOME/.local/share/bg-default"
+else
+  IMG="$1"
+fi
+
+convert "$IMG" -blur 0x20 /tmp/afk_blur
+slock -i /tmp/afk_blur

@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# format and pipe progs list into less
+sed 's/"//g;s=https://==g' "$HOME"/.local/git/rawrBS/progs.csv \
+  | column -s, -t \
+  | less -#2 -N -S

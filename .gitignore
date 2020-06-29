@@ -3,6 +3,10 @@
 .Rhistory
 .RData
 
+# temp files
+.swp
+.swo
+
 # folder view configuration files
 .DS_Store
 Desktop.ini

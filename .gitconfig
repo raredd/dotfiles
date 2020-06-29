@@ -4,7 +4,7 @@
   lg = log --graph --decorate --all
   # relative log
   ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
-  # log by file 
+  # log by file
   ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
   lo = log --graph --oneline  --decorate --date=short --all --pretty=format:'%ad %h %Cgreen%an %Cred%d %Creset%s'
 
@@ -17,7 +17,7 @@
   lcd = diff --cached HEAD^
 
   st = status -s
-    
+
 [color]
   ui = true
 
@@ -31,7 +31,7 @@
   frag = magenta bold
   old = red bold
   new = green bold
-    
+
 [color "status"]
   added = yellow
   changed = green
@@ -48,6 +48,3 @@
 [user]
   email = raredd01@gmail.com
   name = Robert Redd
-
-[credential]
-	helper = osxkeychain
