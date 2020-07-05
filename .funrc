@@ -1,4 +1,26 @@
- function q2a() {
+function cf() {
+  # copy fuzzy
+  cp -v "$1" "$(find $HOME -type d 2>/dev/null \
+    | \grep -viE "\.(git|Rproj\.user)" | fzf | sed 's|~|$HOME|')"
+}
+
+function ef() {
+  # edit fuzzy
+  find . -type f | fzf | xargs -o $EDITOR
+}
+
+function mf() {
+  # move fuzzy
+  cd "$(find $HOME -type d 2>/dev/null \
+    | \grep -viE "\.(git|Rproj\.user)" | fzf | sed 's|~|$HOME|')"
+}
+
+function pf() {
+  # pwd fuzzy - print absolute file path
+  find $HOME -type f 2>/dev/null | fzf
+}
+
+function q2a() {
    # https://stackoverflow.com/a/10359425/2994949
    if [ -z "$1" ]; then
      echo "usage: q2a in.fastq > out.fasta"
