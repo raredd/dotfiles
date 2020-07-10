@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+# cpu temp and usage
+temp=$(sensors \
+  | grep -E "^(Core|T)" \
+  | sed -E 's/^[^+]+\+//; s/ +.*$//' \
+  | tr '\n' ' ')
+used=$(top -bn2 \
+  | grep "Cpu(s)" \
+  | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" \
+  | awk '{print 100 - $1"%"}' \
+  | sed 's/ +/, /' \
+  | tr '\n' ' ')
+
+printf "CPU: %s Temp: %s\n" "$used" "$temp"

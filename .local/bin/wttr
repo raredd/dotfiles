@@ -4,8 +4,8 @@
 # any trailing arg will print full 3-day (width >125)
 if [ $# -eq 0 ]; then
   # silent with errors, delete plug line
-  curl -sf wttr.in | sed '$d'
+  curl -sf wttr.in 2>/dev/null | sed '$d'
 else
   # (or use this if st crashes due to color emojis)
-  curl -sf wttr.in | sed '7q'
+  curl -sf wttr.in 2>/dev/null | sed '7q'
 fi

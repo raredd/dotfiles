@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# SUDO_ASKPASS variable password prompt
+dmenu -fn Monospace-10 -P -p "$1" <&- && echo

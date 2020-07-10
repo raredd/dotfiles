@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+# default brightness 50% if no value given
+if [ -n "$1" ]; then
+  value="$1"
+else
+  value=50
+fi
+
+screen=$(xrandr -q | grep primary | sed 's/ .*//')
+value=$(awk "BEGIN {print $value / 100}")
+
+xrandr --output "$screen" --brightness "$value"

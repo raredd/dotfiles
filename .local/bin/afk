@@ -10,5 +10,5 @@ else
   IMG="$1"
 fi
 
-convert "$IMG" -blur 0x20 /tmp/afk_blur
+convert "$IMG" -blur 0x10 /tmp/afk_blur
 slock -i /tmp/afk_blur
