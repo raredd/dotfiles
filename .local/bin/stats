@@ -8,15 +8,15 @@ fi
 
 # memory used / total
 echo "Memory used:"
-# free -h | awk '/^Mem:/ {print $3 "/" $2}'
+# free -h | awk '/^Mem:/ { print $3 "/" $2 }'
 free --mebi \
   | sed -n '2{p;q}' \
-  | awk '{printf ("%2.1fGi/%2.1fGi\n", ($3 / 1024), ($2 / 1024))}'
+  | awk '{ printf ("%2.1fGi/%2.1fGi\n", ($3 / 1024), ($2 / 1024)) }'
 echo ""
 
 # cpu temp
 echo "CPU temperature:"
-# sensors | awk '/^T/ {print $2}'
+# sensors | awk '/^T/ { print $2 }'
 sensors | grep -E "^(Core|T)"
 echo ""
 

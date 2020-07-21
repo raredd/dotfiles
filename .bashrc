@@ -32,6 +32,7 @@ export BROWSER=brave
 export EDITOR=vim
 export READER=zathura
 
+export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
 export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"
 export LSCOLORS=ExFxCxDxBxegedabagacad
 export IGNOREEOF=1 # require two C-D to exit shell

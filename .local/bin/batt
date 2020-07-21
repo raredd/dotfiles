@@ -8,18 +8,18 @@ for battery in /sys/class/power_supply/BAT?; do
   # time=$(upower -d | grep time | awk '{print $2}')
 
   status=$(upower -d \
-    | grep capacity \
-    | awk -F: '{print $2}' \
+    | awk -F: '/capacity/{ print $2 }' \
     | sed 's/^ *//; s/%//')
   time=$(upower -d \
     | grep time \
-    | awk -F: 'NR==1 {print $2}' \
+    | awk -F: 'NR==1 { print $2 }' \
     | sed -E 's/^ *//; s/ (.).*/\1/')
 
-  if [ $# -eq 0 ];
-  then
-    printf "%s%% %s (%s left, %.0f%%)\n" "$percent" "$state" "$time" "$status"
+  if [ $# -eq 0 ]; then
+    printf "%s%% %s (%s left, Health: %.0f%%)\n" \
+      "$percent" "$state" "$time" "$status"
   else
-    printf "%s%% (%s left)\n" "$percent" "$time"
+    printf "%s%% (%s left)\n" \
+      "$percent" "$time"
   fi
 done | sed 's/ *$//'

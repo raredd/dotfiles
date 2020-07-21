@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
 
 # cpu temp and usage
+# similar to cpu but faster/only total cpu
 temp=$(sed 's/000$/°C/' /sys/class/thermal/thermal_zone*/temp | tr '\n' ' ')
-used=$(top -bn2 \
+used=$(top -bn1 \
   | grep "Cpu(s)" \
   | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" \
   | awk '{ print 100 - $1"%" }' \
@@ -12,5 +13,5 @@ used=$(top -bn2 \
 if [ $# -eq 0 ]; then
   printf "CPU: %sTemp: %s" "$used" "$temp"
 else
-  printf "CPU: %s: %s" "$used" "$temp" | sed 's/Temp//'
+  printf "CPU: %s: %s" "$used" "$temp"
 fi | sed -E 's/ +$/\n/'

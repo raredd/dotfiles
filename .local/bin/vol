@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+amixer get Master \
+  | awk -F'[][]' 'END { print $4":"$2 }' \
+  | sed 's/on:/volume: /; s/off:/muted: /'

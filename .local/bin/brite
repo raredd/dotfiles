@@ -7,7 +7,13 @@ else
   value=50
 fi
 
+current=$(xrandr --verbose \
+  | grep Brightness \
+  | sed 's/^.*: //' \
+  | awk '{ print $1 * 100 }')
 screen=$(xrandr -q | grep primary | sed 's/ .*//')
-value=$(awk "BEGIN {print $value / 100}")
 
+[ "$current" != "$value" ] && echo "Brightness: $current% -> $value%"
+
+value=$(awk "BEGIN { print $value / 100 }")
 xrandr --output "$screen" --brightness "$value"

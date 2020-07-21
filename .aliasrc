@@ -4,7 +4,9 @@ alias \
   bashrc="vim $HOME/.bashrc" \
   funrc="vim $HOME/.funrc" \
   gital="vim $HOME/.gitconfig" \
+  logout="pkill -u $(whoami)" \
   sc="vim $HOME/Documents/lang/shell/cheat" \
+  shutdown="sudo shutdown -h now" \
   vc="vim $HOME/Documents/lang/vim/cheat" \
   vd="vim $HOME/Documents/lang/vim/todo" \
   vimrc="vim $HOME/.vimrc"
@@ -25,12 +27,15 @@ fi
 alias \
   ff="find . -print | grep" \
   grep="grep -niI --color=auto" \
+  less="less -r" \
   ls="ls -lFh $colorflag" \
   ls.="ls -dh $colorflag .*" \
   lsa="ls -laFh $colorflag" \
   lsd="ls -lFh $colorflag | grep --color=never '^d'" \
+  lsl="ls | less -r" \
   R="R --no-save --quiet" \
   r="R" \
+  rs="exec rstudio-bin & exit" \
   reload="exec $SHELL -l" \
   vim="vim -p"
 
@@ -43,8 +48,11 @@ alias \
 alias \
   ..="cd .." \
   ...="cd ../.." \
-  bin="cd $HOME/.local/bin" \
+  b="cd $HOME/.local/bin" \
+  bg="cd $HOME/.local/share/bg" \
   dl="cd $HOME/Downloads" \
   dt="cd $HOME/Desktop" \
   dx="cd $HOME/Documents" \
+  g="cd $HOME/.local/git" \
+  s="cd $HOME/.local/share" \
   tunes="cd $HOME/Music"

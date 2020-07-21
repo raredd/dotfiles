@@ -2,6 +2,17 @@
 
 mem=$(free --mebi \
   | sed -n '2{p;q}' \
-  | awk '{printf ("%2.1fGi/%2.1fGi\n", ($3 / 1024), ($2 / 1024))}')
+  | awk '{ printf ("%2.1fGi/%2.1fGi\n", ($3 / 1024), ($2 / 1024)) }')
+pct=$(free --mebi \
+  | sed -n '2{p;q}' \
+  | awk '{ printf ("%.0f%%\n", ($3 / $2 * 100)) }')
 
-printf "RAM: %s\n" "$mem"
+if [ $# -gt 0 ]; then
+  mem=$(echo "$mem" | sed 's|/.*||')
+fi
+
+if echo "$1" | \grep -Eq '\-?pct'; then
+  printf "RAM: %s\n" "$pct"
+else
+  printf "RAM: %s\n" "$mem"
+fi
