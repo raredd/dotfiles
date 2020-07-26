@@ -1,25 +1,20 @@
 #!/usr/bin/env sh
 
 # loop through all attached batteries
-for battery in /sys/class/power_supply/BAT?; do
-  percent=$(cat "$battery"/capacity 2>/dev/null) || break
-  state=$(cat "$battery"/status 2>/dev/null) || break
-  # status=$(cat "$battery"/capacity_level 2>/dev/null) || break
-  # time=$(upower -d | grep time | awk '{print $2}')
+for battery in $(upower -e | grep 'BAT'); do
+  current=$(upower -i "$battery")
 
-  status=$(upower -d \
-    | awk -F: '/capacity/{ print $2 }' \
-    | sed 's/^ *//; s/%//')
-  time=$(upower -d \
-    | grep time \
-    | awk -F: 'NR==1 { print $2 }' \
-    | sed -E 's/^ *//; s/ (.).*/\1/')
+  percent=$(echo "$current" | grep 'percentage' | sed 's/^.*:\s*//')
+  status=$(echo "$current" | grep 'capacity' | sed 's/^.*:\s*//; s/\..*//')
+  state=$(echo "$current" | grep 'state' | sed 's/^.*:\s*//')
+  time=$(echo "$current" | grep 'time' \
+    | sed -E 's/^.*:\s*//; s/(.*) (.).*/\1\2/')
 
   if [ $# -eq 0 ]; then
-    printf "%s%% %s (%s left, Health: %.0f%%)\n" \
+    printf "%s %s (%s left, Health: %s)\n" \
       "$percent" "$state" "$time" "$status"
   else
-    printf "%s%% (%s left)\n" \
+    printf "%s (%s left)\n" \
       "$percent" "$time"
   fi
-done | sed 's/ *$//'
+done | tr '\n' ' ' | sed 's/ *$/\n/'

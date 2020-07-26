@@ -14,7 +14,7 @@ brite &                   # set default brightness
 amixer set 'Master' 80% & # set volume
                           # a simple status bar
 while xsetroot -name \
-  "`mem -pct` | `cpu -` | `batt -` | `vol` | `wifi` | `date "+%a %d %b %I:%M %p"`"
+  "`mem -pct` | `cpu -` | `batt -` | `vol` | `wifi` | `date "+%a %d %b %I:%M %p"` | `whoami`"
 do sleep 2; done &
 
 exec dwm                  # launch window manager
