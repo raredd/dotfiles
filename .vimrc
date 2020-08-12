@@ -101,6 +101,14 @@ autocmd BufReadPost *
 
 " remaps
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" center search results
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+
 " space Leader map
 map <Space> <Leader>
 

@@ -1,8 +1,11 @@
 #!/usr/bin/env sh
 
+# update man
+# sudo mandb
+
 # search/select man page and render as pdf
 man -k . \
   | dmenu -l 30 \
   | awk '{ print $1 }' \
   | xargs man -Tpdf \
-  zathura -
+  | zathura -

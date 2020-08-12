@@ -1,4 +1,6 @@
-# options
+export BROWSER=brave
+export EDITOR=vim
+export READER=zathura
 
 # use vi key bindings
 set -o vi
@@ -27,10 +29,6 @@ RESET="\033[m"
 export PS1="\[$WH\][\[$GR\]\u\[$WH\]@\[$GR\]\h \[$OR\]\W\[$WH\]]\n\[$GY\]\w\n\[$GR\]$ \[$RESET\]"
 
 ## ----------------------------------------------------- ##
-
-export BROWSER=brave
-export EDITOR=vim
-export READER=zathura
 
 export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
 export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"

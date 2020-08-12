@@ -1,15 +1,15 @@
 # quick links to rc/text files
 alias \
-  aliasrc="vim $HOME/.aliasrc" \
-  bashrc="vim $HOME/.bashrc" \
-  funrc="vim $HOME/.funrc" \
-  gital="vim $HOME/.gitconfig" \
+  aliasrc="$EDITOR $HOME/.aliasrc" \
+  bashrc="$EDITOR $HOME/.bashrc" \
+  funrc="$EDITOR $HOME/.funrc" \
+  gital="$EDITOR $HOME/.gitconfig" \
   logout="pkill -u $(whoami)" \
-  sc="vim $HOME/Documents/lang/shell/cheat" \
+  sc="$EDITOR $HOME/Documents/lang/shell/cheat" \
   shutdown="sudo shutdown -h now" \
-  vc="vim $HOME/Documents/lang/vim/cheat" \
-  vd="vim $HOME/Documents/lang/vim/todo" \
-  vimrc="vim $HOME/.vimrc"
+  vc="$EDITOR $HOME/Documents/lang/vim/cheat" \
+  vd="$EDITOR $HOME/Documents/lang/vim/todo" \
+  vimrc="$EDITOR $HOME/.vimrc"
 
 # make verbose
 alias \
